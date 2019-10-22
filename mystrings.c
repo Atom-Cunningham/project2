@@ -72,7 +72,7 @@ int main(int argc, char ** argv){
         if (is_char(curr) && is_string(fp)){
             fseek(fp, pos, SEEK_SET);   //reset to curr idx -1 
                                         //after is_string
-            print_curr_string(fp);
+            //print_curr_string(fp);
             fseek(fp, pos+1, SEEK_SET); //reset to curr idx
                                         //after print_curr_string
         }
