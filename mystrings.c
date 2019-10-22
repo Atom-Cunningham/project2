@@ -58,7 +58,7 @@ int main(int argc, char ** argv){
     FILE* fp;
     if ((fp = fopen(argv[1], "rb+")) == NULL) {
         printf("\nFile not found");
-        return 1;
+        exit(1);
     }
     //scan for printable characters
     int curr;
@@ -76,6 +76,6 @@ int main(int argc, char ** argv){
                                         //after print_curr_string
         }
 
-    }
-
+    }fclose(fp);
+    return 0;
 }
