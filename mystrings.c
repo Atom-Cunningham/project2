@@ -64,10 +64,11 @@ int main(int argc, char ** argv){
     int curr;
     int pos;
 
+
     while (curr != EOF){
         pos  = ftell(fp);
         curr = getc(fp);
-        if (is_char(curr) && is_string(curr)){
+        if (is_char(curr) && is_string(fp)){
             fseek(fp, pos, SEEK_SET);   //reset to curr idx -1 
                                         //after is_string
             print_curr_string(fp);
