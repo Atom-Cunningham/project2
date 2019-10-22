@@ -48,6 +48,7 @@ void print_curr_string(FILE * fp){
     int c = getc(fp);
     while (c != EOF && is_char(c)){
         printf("%c\n", c);
+        c = getc(fp);
     }
 }
 
