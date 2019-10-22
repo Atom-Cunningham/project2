@@ -43,13 +43,14 @@ int is_string(FILE * fp){
     return 1;
 }
 
-void print_curr_string(FILE * fp){
+int print_curr_string(FILE * fp){
     //prints the current string
     int c = getc(fp);
     while (c != EOF && is_char(c)){
         printf("%c\n", c);
         c = getc(fp);
     }
+    return ftell(fp);
 }
 
 int main(int argc, char ** argv){
@@ -70,10 +71,10 @@ int main(int argc, char ** argv){
         pos  = ftell(fp);
         curr = getc(fp);
         if (is_char(curr) && is_string(fp)){
-            fseek(fp, pos, SEEK_SET);   //reset to curr idx -1 
+            fseek(fp, pos, SEEK_SET);   //reset to curr idx 
                                         //after is_string
-            print_curr_string(fp);
-            fseek(fp, pos+1, SEEK_SET); //reset to curr idx
+            pos = print_curr_string(fp);
+            fseek(fp, pos, SEEK_SET);   //reset to curr idx
                                         //after print_curr_string
         }
 
