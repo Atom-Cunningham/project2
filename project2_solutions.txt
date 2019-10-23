@@ -1,0 +1,9 @@
+After running gdb, I began scanning the asm for comparisons cmp.
+I set breakpoints at the comparisons, and x/s looked into the registers.
+Cmp performs a subtraction operation and stores the yeilded value into the 
+destination register. Therefore I can conclude that the destination 
+is also the string to be compared to. I set a breakpoint to check the
+destination register $esi. x/s $esi was holding the string:
+"cgugjrNivowqDxYvMYgwGLCbWqww"
+When I ran the program and entered the string, I received the victory message.
+
