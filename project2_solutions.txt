@@ -7,3 +7,26 @@ destination register $esi. x/s $esi was holding the string:
 "cgugjrNivowqDxYvMYgwGLCbWqww"
 When I ran the program and entered the string, I received the victory message.
 
+For the second challenge, we used gdb and object dump. We discovered that there
+was function nesting. There were three major functions, l, c, p. As far as we could tell
+p and c both call l, and l calls itself. We heard rumors that the solution was some kind of anagram.
+Through some testing, trial, and error, we discovered that the anagram could be odd or even length.
+Letters, numbers, symbols, and other printable characters work.
+However we found that there was a length requirement. This requirement was unique to the users version.
+My length requirement is 10 characters.
+A mix of letters and numbers works as well, for example:
+"0mmmmmmmmmm0"
+interestingly, ten of any character from a this example set:{1,0,m,.,"}",`,!}
+works. However the string 
+"0m.!`l}}1`!.m0" is invalid.
+when this modified string: "00m.!`l{}1`!.m00" is passed, the program continues to wait for input even though
+it is >10 chars. I hypothesize this has something to do with the brackets.
+Tested "00m.!`l1`!.m00", also invalid. Might not be the brackets.
+I just realized one is a 1 and the other is an l.
+"00m.!`11`!.m00" is valid. I believe the brackets may have special functionality in unix.
+"00m.!`1\}\}1`!.m00" is incorrect. I do believe however that this is some terminal functionality
+because when I try to hit the left arrow key to modify a pasted string such as "00m.!`11`!.m00",
+which should in its own right be automatically accepted, I get "^[[D^[[D".
+reproduced the behavior with "....." -> ".....^[[D^[[D^[[D."
+Figured out what was doing it. Somehow "." was throwing off the terminal.
+Anyways, anagram, printable characters, len >= 10, "." may cause undefined behavior in the terminal.
