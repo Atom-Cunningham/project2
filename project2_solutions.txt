@@ -1,3 +1,7 @@
+Adam Cunningham
+Passords
+
+PROBLEM 1
 After running gdb, I began scanning the asm for comparisons cmp.
 I set breakpoints at the comparisons, and x/s looked into the registers.
 Cmp performs a subtraction operation and stores the yeilded value into the 
@@ -7,18 +11,22 @@ destination register $esi. x/s $esi was holding the string:
 "cgugjrNivowqDxYvMYgwGLCbWqww"
 When I ran the program and entered the string, I received the victory message.
 
+
+
+PROBLEM 2
 For the second challenge, we used gdb and object dump. We discovered that there
 was function nesting. There were three major functions, l, c, p. As far as we could tell
-p and c both call l, and l calls itself. We heard rumors that the solution was some kind of anagram.
+p and c both call l, and l calls itself. L is length, c is chop, p is compare to.
+We heard rumors that the solution was some kind of anagram.
+We believe that the string is chopped at half its length, and then compared to its reverse chopped.
 Through some testing, trial, and error, we discovered that the anagram could be odd or even length.
 Letters, numbers, symbols, and other printable characters work.
 However we found that there was a length requirement. This requirement was unique to the users version.
-My length requirement is 10 characters.
+My length requirement is 0xa (10) characters according to an 0xa I found near a cmp.
 A mix of letters and numbers works as well, for example:
 "0mmmmmmmmmm0"
 interestingly, ten of any character from a this example set:{1,0,m,.,"}",`,!}
-works. However the string 
-"0m.!`l}}1`!.m0" is invalid.
+works. However the string "0m.!`l}}1`!.m0" is invalid.
 when this modified string: "00m.!`l{}1`!.m00" is passed, the program continues to wait for input even though
 it is >10 chars. I hypothesize this has something to do with the brackets.
 Tested "00m.!`l1`!.m00", also invalid. Might not be the brackets.
@@ -29,4 +37,62 @@ because when I try to hit the left arrow key to modify a pasted string such as "
 which should in its own right be automatically accepted, I get "^[[D^[[D".
 reproduced the behavior with "....." -> ".....^[[D^[[D^[[D."
 Figured out what was doing it. Somehow "." was throwing off the terminal.
-Anyways, anagram, printable characters, len >= 10, "." may cause undefined behavior in the terminal.
+Anyways, 
+anagram, printable characters, len >= 10, "." may cause undefined behavior.
+
+
+
+PROBLEM 3
+for problem 3 after some basic guessing, it looks like input is asked for until 10 characters
+are read in. going to look at objdump and gdp.
+Can't put breakpoints, trying to read the asm from obj dump.
+Many other students had a solution that was all one letter.
+Tried every ascii character on my keyboard to 10 chars, upper, lower, chars.
+Nothing, unlucky. Took a look at a hexdump online. Not useful.
+
+Rewrote mystrings project to print characters reguardless of string length.
+found jsgjlLwFchKliVwtGSYGWUN.
+
+jsgjlLwFchKliVwtGSYGWUN
+stands out as something that may be important.
+Saw a xor step in the asm, string compare returns 0 for true;
+Calculated jsgjlLwFchKliVwtGSYGWUN xor 0 (given that xor is relfexive).
+Got unprintable characters, incorrect.
+
+tried reversing the string because xcng looks like bits are being exchanged.
+got NUWGYSGtwVilKhcFwLljgsj. incorrect
+
+found a hex thats standing out next to a ton of getchar calls because its so small.
+other solutions had size constraints. mine compares 0x3 with $eax.
+going to try a string of length 3
+
+first try ooo was correct
+
+qqq zzz incorrect.
+$ax is being moved repeatedly into the stack pointer following a call to get char
+at 1 byte offsets; starting at 0x20($esp) through 0x2b.
+
+aaa correct.
+
+confirmed from a teamate that any ten characters, containing any 3 of a passing character works.
+found a counterexample
+oooiiiiiiiiii is incorrect
+oooaaa incorrect
+fff incorrect
+
+Teamate just typed out every single letter given his size constraint of 4.
+A permutation of his characters spells csc352!
+another teamate just found qwerty
+
+time for brute force
+eee works
+a, o, e, are vowels
+tried i, u, first, both correct
+uuuoooeee does not work
+"uuu       " does
+"   uuu    " does (so does similiar strings, with newline instead of ' ');
+I have all vowels (not y).
+Solution
+any 3 consecutive vowels from the set of vowels excluding y, with whitespace in the remaining indecies.
+
+
