@@ -47,7 +47,7 @@ int print_curr_string(FILE * fp){
     //prints the current string
     int c = getc(fp);
     while (c != EOF && is_char(c)){
-        printf("%c\n", c);
+        printf("%c", c);
         c = getc(fp);
     }
     return ftell(fp);
@@ -75,7 +75,7 @@ int main(int argc, char ** argv){
                                         //after is_string
             pos = print_curr_string(fp);
             fseek(fp, pos, SEEK_SET);   //reset to curr idx
-                                        //after print_curr_string
+            printf("\n");                     //after print_curr_string
         }
 
     }fclose(fp);
