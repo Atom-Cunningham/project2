@@ -59,7 +59,7 @@ side effect: modifies the cursor
 int is_string(FILE * fp){
     int c;
     int i;
-    for (i = 0; i <4; i++){
+    for (i = 0; i < 3; i++){
         c = getc(fp);                   //get next char
         if (c == EOF || !is_char(c)){   //return false if invalid char
             return 0;
@@ -71,7 +71,8 @@ int is_string(FILE * fp){
 /*takes a file pointer
 prints characters starting at the file pointer
 until an unprintable character is reached
-returns the modified frame pointer
+modifies file pointer
+returns 0
 */
 int print_curr_string(FILE * fp){
     //prints the current string
@@ -80,7 +81,7 @@ int print_curr_string(FILE * fp){
         printf("%c", c);
         c = getc(fp);
     }
-    return ftell(fp);
+    return 0;
 }
 
 /*gets a file pointer, from cmd arg1
@@ -106,9 +107,8 @@ int main(int argc, char ** argv){
         if (is_char(curr) && is_string(fp)){
             fseek(fp, pos, SEEK_SET);   //reset to curr idx 
                                         //after is_string
-            pos = print_curr_string(fp);
-            fseek(fp, pos, SEEK_SET);   //reset to curr idx
-            printf("\n");               //after print_curr_string
+            print_curr_string(fp);
+            printf("\n");
         }
     }
     fclose(fp);
